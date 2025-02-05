@@ -1,0 +1,70 @@
+📌 VBA Code Template 
+🔹 Folder Structure for VBA
+/VBA_Project/
+│── /Modules/
+│    ├── DataProcessing.bas
+│    ├── UserInput.bas
+│    ├── Filtering.bas
+│── /Config/
+│    ├── settings.txt
+│── /Logs/
+│    ├── error_log.txt
+│── /Documentation/
+│    ├── VBA_Guide.docx
+│── main.bas
+
+
+🔹 VBA Standard Code Template
+' ==============================================
+' MODULE:       ModuleName
+' AUTHOR:       Name
+' DATE:         YYYY-MM-DD
+' DESCRIPTION:  Brief description of the module
+' VERSION:      1.0
+' ==============================================
+
+Option Explicit  ' Force variable declaration
+
+' ========= GLOBAL CONSTANTS =========
+Public Const SHEET_NAME As String = "Data"  ' Avoid hardcoding sheet names
+
+' ========= MAIN PROCEDURE =========
+Sub Main()
+    On Error GoTo ErrorHandler ' Error Handling
+' Step 1: Get user input
+    Dim userInput As String
+    userInput = GetUserInput("Enter a value:", "User Prompt")
+' Step 2: Process data
+    ProcessData userInput
+' Step 3: Completion Message
+    MsgBox "Process completed successfully!", vbInformation, "Success"
+    
+    Exit Sub  ' Avoid executing error handling if no error
+ErrorHandler:
+    LogError "Error in Main: " & Err.Description
+    MsgBox "An error occurred. Check the log file.", vbCritical, "Error"
+End Sub
+
+' ========= FUNCTION: Get User Input =========
+Function GetUserInput(prompt As String, title As String) As String
+    GetUserInput = InputBox(prompt, title)
+End Function
+
+' ========= FUNCTION: Process Data =========
+Sub ProcessData(criteria As String)
+    Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets(SHEET_NAME)
+' Apply filter
+    ws.Range("A1").CurrentRegion.AutoFilter Field:=2, Criteria1:=criteria
+End Sub
+
+' ========= FUNCTION: Log Errors =========
+Sub LogError(errorMessage As String)
+    Dim filePath As String
+    filePath = ThisWorkbook.Path & "\Logs\error_log.txt"
+Dim fileNum As Integer
+    fileNum = FreeFile
+    Open filePath For Append As #fileNum
+        Print #fileNum, Now & " - " & errorMessage
+    Close #fileNum
+End Sub
