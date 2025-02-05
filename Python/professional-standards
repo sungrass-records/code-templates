@@ -1,0 +1,65 @@
+📌 Python Code Template
+🔹 Folder Structure for Python
+/Python_Project/
+│── /scripts/
+│    ├── data_processing.py
+│    ├── filtering.py
+│    ├── user_input.py
+│── /config/
+│    ├── settings.py
+│── /logs/
+│    ├── error_log.txt
+│── /tests/
+│    ├── test_filtering.py
+│── main.py
+│── README.md
+
+
+🔹 Python Standard Code Template
+"""
+============================================
+ MODULE:       module_name.py
+ AUTHOR:       Name
+ DATE:         YYYY-MM-DD
+ DESCRIPTION:  Brief description of the module
+ VERSION:      1.0
+============================================
+"""
+import logging
+import os
+
+# ========= GLOBAL SETTINGS =========
+LOG_FILE = "logs/error_log.txt"
+# Configure Logging
+logging.basicConfig(filename=LOG_FILE, level=logging.ERROR,
+                    format="%(asctime)s - %(levelname)s - %(message)s")
+                    
+# ========= MAIN FUNCTION =========
+def main():
+    try:
+        # Step 1: Get user input
+        user_input = get_user_input("Enter a value: ")
+# Step 2: Process data
+        process_data(user_input)
+# Step 3: Completion message
+        print("Process completed successfully!")
+except Exception as e:
+        log_error(f"Error in main: {str(e)}")
+        print("An error occurred. Check the log file.")
+        
+# ========= FUNCTION: Get User Input =========
+def get_user_input(prompt: str) -> str:
+    return input(prompt)
+    
+# ========= FUNCTION: Process Data =========
+def process_data(criteria: str):
+    """Process data based on user input."""
+    print(f"Processing data for {criteria}...")
+    
+# ========= FUNCTION: Log Errors =========
+def log_error(error_message: str):
+    """Logs errors to a file."""
+    logging.error(error_message)
+if __name__ == "__main__":
+    main()
+
